@@ -8,13 +8,14 @@ import EmptyListMessage from "@/components/EmptyListMessage/EmptyListMessage";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import { useDebouncedCallback } from "use-debounce";
+import Link from "next/link";
 import css from "./NotesPage.module.css";
 
 interface NotesClientProps {
-  category?: string;
+  tag?: string;
 }
 
-const NotesClient = ({ category }: NotesClientProps) => {
+const NotesClient = ({ tag }: NotesClientProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,11 +36,11 @@ const NotesClient = ({ category }: NotesClientProps) => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [category]);
+  }, [tag]);
 
   const { data, isFetching, isError } = useQuery({
-    queryKey: ["notes", category ?? "all", debouncedQuery, currentPage],
-    queryFn: () => fetchNotes(debouncedQuery, category, currentPage, PER_PAGE),
+    queryKey: ["notes", tag ?? "all", debouncedQuery, currentPage],
+    queryFn: () => fetchNotes(debouncedQuery, tag, currentPage, PER_PAGE),
     keepPreviousData: true,
   });
 
@@ -57,9 +58,10 @@ const NotesClient = ({ category }: NotesClientProps) => {
             onPageChange={setCurrentPage}
           />
         )}
-        <a href="/notes/action/create" className={css.button}>
+        {/* use Next.js Link for client navigation */}
+        <Link href="/notes/action/create" className={css.button}>
           Create note +
-        </a>
+        </Link>
       </header>
 
       {notes.length > 0 ? (
