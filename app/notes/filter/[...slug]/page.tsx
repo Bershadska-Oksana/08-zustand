@@ -1,4 +1,4 @@
-import NotesClient from "./NotesClient";
+import NotesClient from "./Notes.client";
 import { NOTES_FILTER_ALL } from "@/lib/constants";
 
 interface Props {
