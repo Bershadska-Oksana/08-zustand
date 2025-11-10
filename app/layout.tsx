@@ -1,44 +1,40 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
+import { Roboto } from "next/font/google";
+import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "NoteHub",
-  description: "Create you next note",
+  description: "A simple and efficient note-taking app",
+  openGraph: {
+    title: "NoteHub",
+    description: "A simple and efficient note-taking app",
+    url: "https://your-vercel-app.vercel.app",
+    images: ["https://ac.goit.global/fullstack/react/notehub-og-meta.jpg"],
+  },
 };
 
 export default function RootLayout({
   children,
-  modal,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-  modal: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <TanStackProvider>
+    <html lang="en" className={roboto.variable}>
+      <body>
+        <Providers>
           <Header />
-          <main>
-            {children}
-            {modal}
-          </main>
+          {children}
           <Footer />
-        </TanStackProvider>
+        </Providers>
       </body>
     </html>
   );
